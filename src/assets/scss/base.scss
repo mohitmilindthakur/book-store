@@ -1,0 +1,31 @@
+@import './grid.scss';
+
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+
+  // this will make 1rem = 10px which will make easy for the calculation.
+  // 24px will become 2.4rem
+  font-size: 62.5%;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F3F3F7;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
+  color: #222222;
+  background-image: url('./../images/paper.jpg');
+  background-size: 500px;
+  background-repeat: repeat;
+}

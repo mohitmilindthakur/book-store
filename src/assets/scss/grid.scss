@@ -1,0 +1,9 @@
+.grid-x {
+  display: flex;
+  flex-wrap: wrap;
+  // gap: 15px;
+
+  .col-3 {
+    width: 33.33%;
+  }
+}
