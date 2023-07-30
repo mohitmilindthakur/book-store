@@ -3,7 +3,11 @@
     <div class="header-wrapper">
       <nav class="nav">
         <ul class="nav-list">
-          <li class="nav-item nav-item--logo">Logo</li>
+            <li class="nav-item nav-item--logo">
+              <RouterLink :to="{ name: 'home' }">
+                Logo
+              </RouterLink>
+            </li>
           <li class="nav-item nav-item--cart">Cart {{ cartStore.cart.length }}</li>
           <!-- <li class="nav-item nav-item--user">User</li> -->
         </ul>
