@@ -1,5 +1,6 @@
-import './assets/scss/base.scss';
+import './assets/scss/main.scss';
 import 'flexboxgrid';
+
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

@@ -8,6 +8,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/book/:id',
+      name: 'book-detail-page',
+      component: HomeView
     }
   ]
 })

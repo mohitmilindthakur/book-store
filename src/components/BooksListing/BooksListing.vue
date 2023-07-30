@@ -2,37 +2,63 @@
   <section class="listing-search">
 
     <!-- SEARCH CARD -->
-    <div class="search-card">
-      <!-- <select name="saerch-type" id="" class="search-type">
+    <!-- <div class="search-card"> -->
+    <!-- <select name="saerch-type" id="" class="search-type">
         <option value="book" class="search-type-option">Book</option>
         <option value="author" class="search-type-option">Author</option>
       </select> -->
+
+    <!-- TWO OPTIONS: Either use debounced search or search using enter key-->
+
+    <!-- OPTION 1: Debounced Search -->
+    <div class="search-card">
       <input v-model="search" @input="debouncedSearch" id="search-input" type="text" class="search-input"
         placeholder="Search for Book......" />
-      <label for="search-input" class="search-submit-label">
-        <button class="search-submit"><svg width="14" height="24" viewBox="0 0 14 24" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path id="Arrow 1"
-            d="M13.0607 13.0607C13.6464 12.4749 13.6464 11.5251 13.0607 10.9393L3.51472 1.3934C2.92893 0.807611 1.97919 0.807611 1.3934 1.3934C0.807612 1.97918 0.807612 2.92893 1.3934 3.51472L9.87868 12L1.3934 20.4853C0.807611 21.0711 0.807611 22.0208 1.3934 22.6066C1.97918 23.1924 2.92893 23.1924 3.51472 22.6066L13.0607 13.0607ZM11 13.5L12 13.5L12 10.5L11 10.5L11 13.5Z"
-            fill="white" />
-        </svg>
-      </button>
-      </label>
+      <div class="search-submit">
+        <button class="search-submit-btn" type="submit">
+          <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="Arrow 1"
+              d="M13.0607 13.0607C13.6464 12.4749 13.6464 11.5251 13.0607 10.9393L3.51472 1.3934C2.92893 0.807611 1.97919 0.807611 1.3934 1.3934C0.807612 1.97918 0.807612 2.92893 1.3934 3.51472L9.87868 12L1.3934 20.4853C0.807611 21.0711 0.807611 22.0208 1.3934 22.6066C1.97918 23.1924 2.92893 23.1924 3.51472 22.6066L13.0607 13.0607ZM11 13.5L12 13.5L12 10.5L11 10.5L11 13.5Z"
+              fill="white" />
+          </svg>
+        </button>
+      </div>
     </div>
+
+    <!-- OPTION 2: Search using the enter key  -->
+
+    <!-- <form @submit.prevent="onSearchSubmit" class="search-card">
+      <input v-model="search" id="search-input" type="text" class="search-input" placeholder="Search for Book......" />
+      <div class="search-submit">
+        <button class="search-submit-btn" type="submit">
+          <svg width="14" height="24" viewBox="0 0 14 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="Arrow 1"
+              d="M13.0607 13.0607C13.6464 12.4749 13.6464 11.5251 13.0607 10.9393L3.51472 1.3934C2.92893 0.807611 1.97919 0.807611 1.3934 1.3934C0.807612 1.97918 0.807612 2.92893 1.3934 3.51472L9.87868 12L1.3934 20.4853C0.807611 21.0711 0.807611 22.0208 1.3934 22.6066C1.97918 23.1924 2.92893 23.1924 3.51472 22.6066L13.0607 13.0607ZM11 13.5L12 13.5L12 10.5L11 10.5L11 13.5Z"
+              fill="white" />
+          </svg>
+        </button>
+      </div>
+    </form> -->
+    <!-- </div> -->
   </section>
   <section class="books-listing" :class="{ loading: isFetching }">
     <!-- <div class="grid-container"> -->
     <!-- <div class="grid-x"> -->
 
-    <!-- <template v-for="num in 5"> -->
-    <!-- <div class="cell col-3"> -->
-    <!-- <BookCard /> -->
-    <!-- </div> -->
-    <!-- </template> -->
+    <div class="books-count">Total: {{ booksCount }}</div>
+    <div class="books-grid">
+      <template v-for="book in books">
+        <!-- <div class="cell col-3"> -->
+        <RouterLink :to="{ name: 'book-detail-page', params: { id: book.key } }">
+          <BookCard class="book-listing-book-card" :book="book" />
+        </RouterLink>
+        <!-- </div> -->
+      </template>
+    </div>
     <!-- </div> -->
     <!-- </div> -->
 
-    <table>
+    <!-- <table>
       <thead>
         <tr>
           <th>Book</th>
@@ -82,7 +108,7 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
   </section>
 </template>
 <script>
@@ -115,26 +141,27 @@ export default {
   },
 
   created() {
-    this.debouncedSearch = this.debounce(this.onSearch, 500);
+    this.debouncedSearch = this.debounce(this.onSearchSubmit, 500);
   },
 
   methods: {
-    onSearch() {
+    onSearchSubmit() {
       fetchBooks(this.search)
-      .then(data => {
-        this.books = data.docs
-        this.books.forEach(item => {
-          if (!item.ratings_average) {
-            item.ratings_average = (Math.random() * 5).toFixed(2);
-          }
+        .then(data => {
+          this.books = data.docs
+          this.books.forEach(item => {
+            if (!item.ratings_average) {
+              item.ratings_average = (Math.random() * 5).toFixed(2);
+            }
+          })
+          console.log(this.books);
+          this.booksCount = data.numFound;
+          this.isFetching = false;
         })
-        console.log(this.books);
-        this.isFetching = false;
-      })
-      .catch(error => {
-        console.log('error', error);
-        this.isFetching = false;
-      })
+        .catch(error => {
+          console.log('error', error);
+          this.isFetching = false;
+        })
     },
 
     debounce(func, timeout = 300) {
@@ -187,22 +214,26 @@ export default {
   }
 }
 
-.search-submit-label {
+.search-submit {
   display: block;
 }
 
-.search-submit {
-    border: 0;
-    background-color: #19376D;
-    padding: 0 1.6rem;
-    border-radius: .8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
+.search-submit-btn {
+  border: 0;
+  background-color: #19376D;
+  padding: 0 1.6rem;
+  border-radius: .8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
 
-.books-listing {
+.books-count {
+  text-align: center;
+}
+
+.books-grid {
   display: flex;
   gap: 2.5rem;
   flex-wrap: wrap;
@@ -215,8 +246,9 @@ export default {
 
   &.loading {
     opacity: .5;
+
     &:before {
-    content: "";
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -243,6 +275,10 @@ export default {
   }
 }
 
+.book-listing-book-card {
+  height: 100%;
+}
+
 table {
   border-collapse: separate;
   border-spacing: 0 2.4rem;
@@ -259,6 +295,7 @@ td {
 .book-basic-info {
   display: flex;
   gap: 4.7rem;
+
   picture {
     min-width: 5rem;
   }
@@ -272,4 +309,5 @@ td {
 tbody tr {
   background-color: white;
   border-radius: 10px;
-}</style>
+}
+</style>

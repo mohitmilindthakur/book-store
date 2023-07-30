@@ -22,6 +22,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
 .header-wrapper {
   padding: 24px 16px;
   background-color: #19376D;

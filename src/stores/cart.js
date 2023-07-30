@@ -11,7 +11,7 @@ export const useCartStore = defineStore('cart', {
     }
   },
   getters: {
-    idsObject(state) {
+    idsObject() {
       let obj = {};
       this.cart.forEach(item => {
         console.log(item, this.cart);

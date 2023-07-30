@@ -22,10 +22,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #F3F3F7;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.6rem;
-  color: #222222;
   background-image: url('./../images/paper.jpg');
   background-size: 500px;
   background-repeat: repeat;
+}
+
+a {
+  color: unset;
+  text-decoration: unset;
 }
