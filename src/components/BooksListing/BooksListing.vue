@@ -28,12 +28,14 @@ import { useCartStore } from '../../stores/cart';
 import { useSearchStore } from '../../stores/search';
 import { fetchBooks } from '@/apis/book.js';
 import { storeToRefs } from 'pinia';
+import initialData from './initial-data';
 
 export default {
   setup() {
     const cartStore = useCartStore();
     const searchStore = useSearchStore();
     const { search } = storeToRefs(searchStore);
+    searchStore.setSearch('');
     return { cartStore, searchStore, search };
   },
   components: {
@@ -42,18 +44,24 @@ export default {
 
   data() {
     return {
-      books: [],
+      books: initialData,
       isFetching: false,
       debouncedSearch: null,
-      booksCount: 10,
+      booksCount: 12,
       pageNum: 1,
-      observer: null
+      observer: null,
+      initialData
     }
   },
 
   watch: {
     search() {
-      this.renderBooks();
+      if (!this.search) {
+        this.books = initialData;
+        this.booksCount = 12;
+      } else {
+        this.renderBooks();
+      }
     }
   },
 
@@ -63,8 +71,13 @@ export default {
 
   methods: {
     renderBooks(isAppend = false, pageNum=1) {
+      !isAppend && (this.isFetching = true);
       fetchBooks(this.search, pageNum)
-        .then(data => {
+        .then(({ data, response }) => {
+          let url = new URLSearchParams(new URL(response.url).search);
+          if (url.get('q') != this.search) {
+            return;
+          }
           if (isAppend) {
             this.books.push(...data.docs);
           } else {
@@ -73,6 +86,13 @@ export default {
           this.books.forEach(item => {
             if (!item.ratings_average) {
               item.ratings_average = (Math.random() * 5).toFixed(2);
+            }
+            if (item.key.includes('/')) {
+              item.key = item.key.split('/')[2];
+            }
+
+            if(!item.price) {
+              item.price = (Math.random() * 200).toFixed(2);
             }
           })
           this.booksCount = data.numFound;
@@ -116,6 +136,21 @@ export default {
   max-width: 144rem;
   margin: 0 auto;
   padding: 0 24px;
+  &.loading {
+    opacity: .5;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      // background-image: linear-gradient(to bottom, rgba(0,0,0.5), rgba(0,0,0,.5));
+      opacity: .5;
+      z-index: 1;
+    }
+  }
 }
 
 .listing-info {
@@ -135,22 +170,6 @@ export default {
   margin-top: 6.4rem;
   position: relative;
   // row-gap: 2.5rem;
-
-  &.loading {
-    opacity: .5;
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      // background-image: linear-gradient(to bottom, rgba(0,0,0.5), rgba(0,0,0,.5));
-      opacity: .5;
-      z-index: 1;
-    }
-  }
 }
 
 .book-title {

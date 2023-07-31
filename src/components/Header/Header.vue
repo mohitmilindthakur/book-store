@@ -5,10 +5,14 @@
         <ul class="nav-list">
             <li class="nav-item nav-item--logo">
               <RouterLink :to="{ name: 'home' }">
-                Logo
+                Home
               </RouterLink>
             </li>
-          <li class="nav-item nav-item--cart">Cart {{ cartStore.cart.length }}</li>
+          <li class="nav-item nav-item--cart">
+            <RouterLink :to="{ name: 'cart-page' }">
+              Cart {{ cartStore.cart.length }}
+            </RouterLink>
+          </li>
           <!-- <li class="nav-item nav-item--user">User</li> -->
         </ul>
       </nav>

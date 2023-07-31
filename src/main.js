@@ -1,5 +1,4 @@
 import './assets/scss/main.scss';
-import 'flexboxgrid';
 
 
 import { createApp } from 'vue'
