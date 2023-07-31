@@ -5,7 +5,7 @@
       <!-- IMAGE -->
       <div class="book-image-container">
         <picture>
-          <source v-if="book.cover_i" :srcset="`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg?default=false`"
+          <source v-if="book.cover_i" :srcset="`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`"
             type="image/jpg">
           <img src="https://openlibrary.org/images/icons/avatar_book-sm.png">
         </picture>
@@ -145,6 +145,10 @@ export default {
 .banner-container {
   display: flex;
   gap: 5rem;
+  padding: 2.4rem 3.2rem;
+  background-color: white;
+  border-radius: .4rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 @media screen and (max-width: 768px) {
