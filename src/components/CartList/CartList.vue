@@ -100,7 +100,7 @@ export default {
 
   .cart-quantity {
     display: flex;
-    gap: 1.2rem;
+    gap: 2.5rem;
     align-items: center;
 
     button {
