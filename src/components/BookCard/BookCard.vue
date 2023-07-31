@@ -4,7 +4,7 @@
     <!-- BOOK IMAGE -->
     <div class="book-card-img-container">
       <picture>
-        <source v-if="book.cover_i" :srcset="`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg?default=false`"
+        <source v-if="book.cover_i" :srcset="`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg?default=false`"
           type="image/jpg">
         <img src="https://openlibrary.org/images/icons/avatar_book-sm.png">
       </picture>

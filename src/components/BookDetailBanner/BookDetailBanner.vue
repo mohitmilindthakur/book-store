@@ -72,6 +72,12 @@
       </div>
     </div>
   </section>
+  <div v-if="isFetching" class="book-loading">
+    <svg fill="#000000" width="800px" height="800px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <title>loader</title>
+      <path d="M16 0.75c-0.69 0-1.25 0.56-1.25 1.25v0 8c0 0.69 0.56 1.25 1.25 1.25s1.25-0.56 1.25-1.25v0-8c0-0.69-0.56-1.25-1.25-1.25v0zM16 20.75c-0.69 0-1.25 0.56-1.25 1.25v8c0 0.69 0.56 1.25 1.25 1.25s1.25-0.56 1.25-1.25v0-8c-0-0.69-0.56-1.25-1.25-1.25h-0zM11.25 16c0-0.69-0.56-1.25-1.25-1.25v0h-8c-0.69 0-1.25 0.56-1.25 1.25s0.56 1.25 1.25 1.25v0h8c0.69 0 1.25-0.56 1.25-1.25v0zM30 14.75h-8c-0.69 0-1.25 0.56-1.25 1.25s0.56 1.25 1.25 1.25v0h8c0.69 0 1.25-0.56 1.25-1.25s-0.56-1.25-1.25-1.25v0zM6.984 5.217c-0.226-0.226-0.539-0.366-0.884-0.366-0.69 0-1.25 0.56-1.25 1.25 0 0.345 0.14 0.658 0.366 0.884v0l5.657 5.657c0.226 0.226 0.539 0.366 0.884 0.366 0.69 0 1.25-0.56 1.25-1.25 0-0.345-0.14-0.658-0.366-0.884v0zM21.127 19.357c-0.226-0.225-0.538-0.364-0.882-0.364-0.691 0-1.251 0.56-1.251 1.251 0 0.344 0.139 0.656 0.364 0.882l5.658 5.658c0.227 0.228 0.541 0.369 0.888 0.369 0.691 0 1.251-0.56 1.251-1.251 0-0.347-0.141-0.661-0.369-0.887l-0-0zM10.874 19.357l-5.657 5.658c-0.227 0.226-0.367 0.539-0.367 0.885 0 0.691 0.56 1.251 1.251 1.251 0.345 0 0.658-0.14 0.884-0.366v0l5.657-5.658c0.227-0.226 0.367-0.539 0.367-0.885 0-0.691-0.56-1.251-1.251-1.251-0.345 0-0.658 0.14-0.884 0.366v0zM20.242 13.008c0.001 0 0.001 0 0.002 0 0.345 0 0.657-0.14 0.883-0.366l5.658-5.657c0.226-0.226 0.366-0.539 0.366-0.884 0-0.691-0.56-1.251-1.251-1.251-0.346 0-0.658 0.14-0.885 0.367v0l-5.658 5.657c-0.226 0.226-0.366 0.539-0.366 0.884 0 0.69 0.56 1.25 1.25 1.25 0 0 0.001 0 0.001 0h-0z"></path>
+    </svg>
+  </div>
 </template>
 <script>
 import { fetchBook } from '@/apis/book';
@@ -83,10 +89,12 @@ export default {
   },
   data() {
     return {
-      book: null
+      book: null,
+      isFetching: true
     }
   },
   created() {
+    this.isFetching = true;
     fetchBook(this.$route.params.id)
       .then(data => {
         this.book = data;
@@ -118,7 +126,11 @@ export default {
         }
 
         this.book.key = this.$route.params.id;
-      });
+        this.isFetching = false;
+      })
+      .catch(error => {
+        this.isFetching = false;
+      })
   }
 }
 </script>
@@ -144,6 +156,7 @@ export default {
 .book-image-container {
   img {
     width: 25rem;
+    border-radius: .4rem;
   }
 }
 
@@ -190,8 +203,8 @@ export default {
 }
 
 .book-description {
-  font-size: 1.8rem;
-  line-height: 2.5rem;
+  font-size: 1.6rem;
+  line-height: 2.7rem;
   max-width: 100rem;
 }
 
@@ -212,5 +225,19 @@ export default {
   display: inline-block;
   padding: 4px 8px;
   border-radius: 4px;
+  font-size: 1.4rem;
+  color: #515151;
+}
+
+.book-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  svg {
+    width: 10rem;
+    height: 10rem;
+  }
 }
 </style>

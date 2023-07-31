@@ -45,7 +45,7 @@
 
           <!-- PRICE -->
           <td class="book-price">
-            $ {{ parseFloat(cartItem.price) * cartItem.cartQuantity }}
+            $ {{ parseFloat(parseFloat(cartItem.price) * cartItem.cartQuantity).toFixed(2) }}
           </td>
         </tr>
 
