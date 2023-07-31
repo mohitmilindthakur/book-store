@@ -10,7 +10,7 @@
           <img src="https://openlibrary.org/images/icons/avatar_book-sm.png">
         </picture>
         <div class="book-price">
-          $25
+          $ {{ book.price }}
         </div>
         <div class="cart-section">
           <!-- REMOVE FROM CART -->
@@ -125,7 +125,7 @@ export default {
 <style lang="scss" scoped>
 .book-detail-banner {
   max-width: 144rem;
-  margin: 0 auto;
+  margin: 5rem auto;
   margin-top: 5rem;
   padding: 0 2.5rem;
 }
@@ -133,6 +133,12 @@ export default {
 .banner-container {
   display: flex;
   gap: 5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .banner-container {
+    flex-direction: column;
+  }
 }
 
 .book-image-container {

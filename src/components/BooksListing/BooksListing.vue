@@ -1,10 +1,14 @@
 <template>
   <section class="books-listing" :class="{ loading: isFetching }">
 
-    <div class="listing-info" v-if="search">
-      <div>
+    <div class="listing-info">
+      <div v-if="search">
         <span>Showing results for: </span>
         <span class="label-bold">{{ search }}</span>
+      </div>
+
+      <div v-else>
+        <span class="label-bold">Featured Books</span>
       </div>
 
       <div class="books-count">
@@ -13,12 +17,17 @@
       </div>
     </div>
 
-    <div class="books-grid">
+    <div class="books-grid" v-if="books.length">
       <template v-for="book in books">
         <RouterLink class="book-listing-book-card-container" :to="{ name: 'book-detail-page', params: { id: book.key } }">
           <BookCard class="book-listing-book-card" :book="book" />
         </RouterLink>
       </template>
+    </div>
+
+    <div class="no-results" v-else>
+      <h2>No results</h2>
+      <img src="@/assets/images/result-empty.png" alt="">
     </div>
   </section>
 </template>
@@ -136,6 +145,7 @@ export default {
   max-width: 144rem;
   margin: 0 auto;
   padding: 0 24px;
+  margin-bottom: 5rem;
   &.loading {
     opacity: .5;
 
@@ -191,5 +201,17 @@ export default {
 
 .book-listing-book-card-container {
   width: 32rem;
+}
+
+.no-results {
+  text-align: center;
+  max-width: 144rem;
+  margin: 0 auto;
+  margin-top: 5rem;
+  img {
+    margin-top: 2rem;
+    width: 50%;
+    min-width: 25rem;
+  }
 }
 </style>

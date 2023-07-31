@@ -59,7 +59,7 @@ export default {
   text-align: center;
   margin-top: 48px;
   overflow: visible;
-  padding-bottom: 2.5rem;
+  padding: 0 2.4rem 2.5rem 2.4rem;
   display: flex;
   align-items: stretch;
   justify-content: center;

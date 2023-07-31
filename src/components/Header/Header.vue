@@ -34,11 +34,13 @@ header {
   position: sticky;
   top: 0;
   z-index: 5;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 .header-wrapper {
   padding: 24px 16px;
   background-color: #19376D;
   color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
 .nav-list {
